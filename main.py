@@ -1,5 +1,6 @@
 from typing import List, Dict
 import json
+from keyword import iskeyword
 
 
 class Entity:
@@ -13,14 +14,11 @@ class Entity:
         self.query = query
         self.father = father
 
-        for i in fields:
-            if (type(i) != str):
-                raise Exception('you are a whore.')
-            self.__setattr__(i, None)
+        for field in fields:
+            if (not isinstance(field, str) or not field.isidentifier() or iskeyword(field)):
+                raise Exception(f'you cant use "{field}" as field name.')
+            self.__setattr__(field, None)
         print(json.dumps(query))
-
-
-kir = Entity('kir', ['id', 'nam'], {"salam": None}, None)
 
 
 class Query:
